@@ -1,29 +1,39 @@
-name: test-selenium
-on: 
-  push:
-    branches:
-      - master
+name: run_selenium
+on:
+  workflow_dispatch:
+
 jobs:
-  build:
+  run_selenium:
+    name: run_selenium
     runs-on: ubuntu-latest
     steps:
-      - 
-        name: Checkout Repository
+      - name: Checkout
         uses: actions/checkout@v2
-      - 
-        name: Setup Python
-        uses: actions/setup-python@v2
-      - 
-        name: Install Chrome
+      
+      # set up chrome driver
+      - name: Setting up chrome driver
+        uses: nanasess/setup-chromedriver@v1
+        with:
+          chromedriver-version: '96.0.4664.45'
+      
+      # set up python
+      - name: Setting up python.
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+        
+      # install poetry
+      - name: Install Poetry
         run: |
-          sudo wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo apt update
-          sudo apt-get install google-chrome-stable
-      - 
-        name: Install Package
-        run: |
-          pip install chromedriver-binary==94.*
-          pip install selenium
-      - 
-        name: test Selenium
-        run: python test_selenium.py
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+      
+      - name: Add path for Poetry
+        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
+      
+      # install prod dependencies
+      - name: Install dependencies
+        run: poetry install --no-interaction --no-dev
+
+      # run selenium
+      - name: Run selenium
+        run: poetry run python test_selenium.py
