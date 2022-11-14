@@ -3,37 +3,15 @@ on:
   workflow_dispatch:
 
 jobs:
-  run_selenium:
-    name: run_selenium
+  selenium:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      
-      # set up chrome driver
-      - name: Setting up chrome driver
-        uses: nanasess/setup-chromedriver@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
         with:
-          chromedriver-version: '96.0.4664.45'
-      
-      # set up python
-      - name: Setting up python.
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.9
-        
-      # install poetry
-      - name: Install Poetry
-        run: |
-          curl -sSL https://install.python-poetry.org | python3 -
-      
-      - name: Add path for Poetry
-        run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
-      
-      # install prod dependencies
-      - name: Install dependencies
-        run: poetry install --no-interaction --no-dev
-
-      # run selenium
-      - name: Run selenium
-        run: poetry run python sample.py
+          python-version: '3.8'
+          architecture: 'x64'
+      - run: |
+          pip install get-chrome-driver --upgrade
+          pip install -r selenium/requirements.txt
+          python selenium/main.py
