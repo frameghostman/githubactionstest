@@ -25,5 +25,5 @@ jobs:
           pip install chromedriver-binary==94.*
           pip install selenium
       - 
-        name: Test Selenium
+        name: test Selenium
         run: python test_selenium.py
