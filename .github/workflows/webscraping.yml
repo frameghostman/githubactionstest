@@ -1,5 +1,7 @@
 name: webscraping
 on:
+  schedule:
+    - cron: '0 16 * * *' # 1:00 JST
   workflow_dispatch:
 
 jobs:
