@@ -6,13 +6,21 @@ jobs:
   webscraping:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
+        with:
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+          fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
       - uses: actions/setup-python@v2
         with:
           python-version: '3.8'
           architecture: 'x64'
-      - run: |
-          pip install --upgrade pip
-          pip install get-chrome-driver --upgrade
-          pip install -r requirements.txt
-          python main.py >> file.html
+      - name: Create local changes
+        - run: |
+            pip install --upgrade pip
+            pip install get-chrome-driver --upgrade
+            pip install -r requirements.txt
+            python main.py >> file.html
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
