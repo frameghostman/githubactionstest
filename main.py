@@ -1,16 +1,24 @@
-from get_chrome_driver import GetChromeDriver
-from selenium import webdriver
+import csv
+import feedparser
+import datetime
 
-get_driver = GetChromeDriver()
-get_driver.install()
+dt_now = datetime.datetime.now()
+td = datetime.timedelta(days=1)
+dt_yesterday = dt_now - td
+dt_yesterday = str(dt_yesterday)
+dt_yesterday = dt_yesterday[0:10]
 
-def driver_init():
-    options = webdriver.ChromeOptions()
-    options.add_argument('--headless')
-    return webdriver.Chrome(options=options)
+print(dt_yesterday + "<br>")
+print("--------------------------------" + "<br>")
 
-driver = driver_init()
-driver.get('https://hashito.biz/')
-print(driver.find_element_by_xpath('/html/body/div[1]/div/section/div/div/h2').text)
-print(driver.current_url)
-driver.quit()
+with open('sites.csv', 'r') as file:
+    reader = csv.reader(file)
+
+    for row in reader:
+        RSS_URL = row[1]
+        blog_RSS = feedparser.parse(RSS_URL)
+
+        for entry in blog_RSS.entries:
+            if dt_yesterday == entry.date[0:10]:
+                print("<a href=\"" + entry.link + "\">" + entry.title + "</a>" + ":" + row[0] + "<br>")
+                print("...................." + "<br>")
