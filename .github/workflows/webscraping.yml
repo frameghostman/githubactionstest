@@ -1,4 +1,4 @@
-name: run_selenium
+name: webscraping
 on:
   workflow_dispatch:
 
