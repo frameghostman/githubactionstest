@@ -22,6 +22,7 @@ jobs:
             cp file.html file_bak.html
             python main.py > file.html
             cat file_bak.html >> file.html
+            cp file.html matome/index.html
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
