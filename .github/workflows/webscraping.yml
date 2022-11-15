@@ -19,7 +19,9 @@ jobs:
             pip install --upgrade pip
             pip install get-chrome-driver --upgrade
             pip install -r requirements.txt
-            python main.py >> file.html
+            cp file.html file_bak.html
+            python main.py > file.html
+            cat file_bak.html >> file.html
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
