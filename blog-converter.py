@@ -69,7 +69,7 @@ def save_to_csv(blog_entries, output_file='blog_data.csv'):
     with open(output_file, 'w', newline='', encoding='utf-8') as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
-        writer.writerows(blog_entries[:100])
+        writer.writerows(blog_entries[:2000])
     
     print(f"Successfully wrote {len(blog_entries)} blog entries to {output_file}")
 
