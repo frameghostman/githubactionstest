@@ -24,6 +24,7 @@ jobs:
             cp index.html index_bak.html
             python main.py > index.html
             cat index_bak.html >> index.html
+            python blog-converter.py
       - name: Commit & Push changes
         uses: actions-js/push@master
         with:
