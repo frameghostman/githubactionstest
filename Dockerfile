@@ -18,4 +18,4 @@ EXPOSE 8080
 
 # StreamlitのCORS制限を無効化して、Cloud Run上での利用を許可
 # また、PORT番号も指定
-CMD streamlit run app.py --server.port $PORT --server.enableCORS false
+CMD streamlit run streamlit-blog-app.py --server.port $PORT --server.enableCORS false
